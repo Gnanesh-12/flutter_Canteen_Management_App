@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "858833568685",
+    "project_id": "amrita-canteen-app",
+    "storage_bucket": "amrita-canteen-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858833568685:android:d6b3752a7d7e4311a45724",
+        "android_client_info": {
+          "package_name": "com.example.amritacanteenapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxcKVVHVGr5f6fmBUC8rAKNyzHIwRX0fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858833568685:android:44c445b5927acc0ea45724",
+        "android_client_info": {
+          "package_name": "com.example.canteen_admin_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxcKVVHVGr5f6fmBUC8rAKNyzHIwRX0fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
