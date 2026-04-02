@@ -8,23 +8,19 @@ class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
   String getCanteenId(BuildContext context) {
-    final user = Provider.of<AuthService>(context, listen: false).currentUser;
-    final email = user?.email ?? '';
-
-    if (email.startsWith('it-canteen-admin')) {
-      return 'it_canteen';
-    } else if (email.startsWith('main-canteen-admin')) {
-      return 'main_canteen';
-    } else if (email.startsWith('mba-canteen-admin')) {
-      return 'mba_canteen';
-    }
-    return 'default_canteen';
+    return Provider.of<AuthService>(context, listen: false).canteenId ?? 'default_canteen';
   }
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final canteenId = authService.canteenId;
+
+    if (canteenId == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final firestoreService = FirestoreService();
-    final canteenId = getCanteenId(context);
 
     return StreamBuilder<DocumentSnapshot>(
       stream: firestoreService.getCanteenStream(canteenId),

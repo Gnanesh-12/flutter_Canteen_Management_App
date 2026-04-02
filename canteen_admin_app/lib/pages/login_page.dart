@@ -1,3 +1,4 @@
+import 'package:canteen_admin_app/services/admin_setup_service.dart';
 import 'package:canteen_admin_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,52 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
     }
+  }
+
+  void _showForgotPasswordDialog() {
+    final _resetEmailController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Forgot Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Enter your registered email below to receive a reset link.'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _resetEmailController,
+              decoration: const InputDecoration(
+                labelText: 'Email Address',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final email = _resetEmailController.text.trim();
+              if (email.isNotEmpty) {
+                final authService = Provider.of<AuthService>(context, listen: false);
+                await authService.sendPasswordResetEmail(email);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Reset link sent! Please check your email.')),
+                  );
+                }
+              }
+            },
+            child: const Text('SEND RESET LINK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -93,9 +140,33 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: _login,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF8A1038),
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                ),
                                 child: const Text('LOGIN'),
                               ),
                             ),
+                      const SizedBox(height: 16),
+                      TextButton(
+                        onPressed: _showForgotPasswordDialog,
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      TextButton.icon(
+                        onPressed: () => AdminSetupService.initializeAdmins(context),
+                        icon: const Icon(Icons.settings),
+                        label: const Text('ONE-TIME ADMIN INITIALIZATION'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey[400],
+                          textStyle: const TextStyle(fontSize: 10),
+                        ),
+                      ),
                     ],
                   ),
                 ),

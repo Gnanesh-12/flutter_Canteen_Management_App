@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/cart_model.dart';
 import 'token_page.dart';
 
@@ -121,6 +122,7 @@ class _PaymentPageState extends State<PaymentPage> {
           'status': 'Preparing',
           'canteenId': widget.canteenId,
           'tokenNumber': token,
+          'userId': FirebaseAuth.instance.currentUser?.uid,
         };
 
         final newOrderRef = firestore.collection('orders').doc();
