@@ -71,16 +71,6 @@ A real-time dashboard for canteen administrators to manage menus, track live ord
 
 ---
 
-## 🔑 Admin Access (Pre-configured)
-
-For testing purposes, the following admin accounts are pre-configured in the system:
-
-| Department | Email | Password |
-| :--- | :--- | :--- |
-| **IT Canteen** | `it_admin@amrita.edu` | `Admin@it123` |
-| **Main Canteen** | `main_admin@amrita.edu` | `Admin@main123` |
-| **MBA Canteen** | `mba_admin@amrita.edu` | `Admin@mba123` |
-
 > [!IMPORTANT]
 > To initialize these administrators, use the **"ONE-TIME ADMIN INITIALIZATION"** button on the Admin App's login screen during your first run.
 
