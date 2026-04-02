@@ -42,7 +42,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyDbNCc0FRq3QiJW0ElJDGI8Pum-PVjMgfM',
-    appId: '1:858833568685:web:390024c84f0b47f4a45724',
+    appId: '1:858833568685:web:37279812c09c7508a45724',
     messagingSenderId: '858833568685',
     projectId: 'amrita-canteen-app',
     authDomain: 'amrita-canteen-app.firebaseapp.com',
