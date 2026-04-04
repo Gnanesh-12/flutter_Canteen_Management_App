@@ -21,6 +21,9 @@ dependencies:
   cloud_firestore: ^6.2.0
   firebase_auth: ^6.3.0
   intl: ^0.20.2
+  razorpay_flutter: ^1.4.3
+  fluttertoast: ^9.0.0
+  js: ^0.7.2
     
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/cart_model.dart';
 import '../models/cart_item.dart';
 import 'payment_page.dart';
+import '../screens/checkout_screen.dart';
 
 class CartPage extends StatelessWidget {
   final String canteenId; // Required to pass to the payment page
@@ -74,10 +75,8 @@ class CartPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PaymentPage(
-                                totalAmount: cart.totalPrice,
-                                canteenId:
-                                    canteenId, // Pass the canteenId forward
+                              builder: (context) => CheckoutScreen(
+                                canteenId: canteenId,
                               ),
                             ),
                           );
