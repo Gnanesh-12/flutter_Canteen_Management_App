@@ -22,12 +22,43 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  final _nameController = TextEditingController();
-  final _rollNumberController = TextEditingController();
-  final _upiController = TextEditingController(text: 'example@upi');
+  String? _userName;
+  String? _rollNumber;
+  bool _isLoadingUser = true;
   final _formKey = GlobalKey<FormState>();
 
   bool _isProcessing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (userDoc.exists) {
+          setState(() {
+            _userName = userDoc.data()?['name'];
+            _rollNumber = userDoc.data()?['rollnumber'];
+            _isLoadingUser = false;
+          });
+        } else {
+          setState(() => _isLoadingUser = false);
+        }
+      } catch (e) {
+        setState(() => _isLoadingUser = false);
+      }
+    } else {
+      setState(() => _isLoadingUser = false);
+    }
+  }
 
   void _processPayment() async {
     if (!_formKey.currentState!.validate()) {
@@ -107,9 +138,9 @@ class _PaymentPageState extends State<PaymentPage> {
         // All checks passed, create the order
         token = Random().nextInt(900) + 100;
         final orderData = {
-          'userName': _nameController.text.trim(),
-          'rollNumber': _rollNumberController.text.trim(),
-          'upiId': _upiController.text.trim(),
+          'userName': _userName ?? 'Unknown User',
+          'rollNumber': _rollNumber ?? 'N/A',
+          'upiId': '',
           'totalAmount': widget.totalAmount,
           'items': cart.items
               .map((item) => {
@@ -138,8 +169,8 @@ class _PaymentPageState extends State<PaymentPage> {
           context,
           MaterialPageRoute(
             builder: (context) => TokenPage(
-              userName: _nameController.text,
-              rollNumber: _rollNumberController.text,
+              userName: _userName ?? 'Unknown User',
+              rollNumber: _rollNumber ?? 'N/A',
               orderId: orderId!,
               tokenNumber: token!,
             ),
@@ -165,9 +196,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _rollNumberController.dispose();
-    _upiController.dispose();
     super.dispose();
   }
 
@@ -182,7 +210,9 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: _isProcessing ? _buildProcessingScreen() : _buildDetailsForm(),
+        child: _isLoadingUser 
+            ? const Center(child: CircularProgressIndicator())
+            : (_isProcessing ? _buildProcessingScreen() : _buildDetailsForm()),
       ),
     );
   }
@@ -205,29 +235,6 @@ class _PaymentPageState extends State<PaymentPage> {
                     fontWeight: FontWeight.bold,
                     color: Colors.black)),
             const SizedBox(height: 40),
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                  labelText: 'Full Name', border: OutlineInputBorder()),
-              validator: (value) =>
-                  value!.trim().isEmpty ? 'Please enter your name' : null,
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _rollNumberController,
-              decoration: const InputDecoration(
-                  labelText: 'Roll Number', border: OutlineInputBorder()),
-              validator: (value) =>
-                  value!.trim().isEmpty ? 'Please enter your roll number' : null,
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _upiController,
-              decoration: const InputDecoration(
-                  labelText: 'UPI ID', border: OutlineInputBorder()),
-              validator: (value) =>
-                  value!.trim().isEmpty ? 'Please enter your UPI ID' : null,
-            ),
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: _processPayment,
