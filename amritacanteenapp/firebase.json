@@ -1,1 +1,25 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"amrita-canteen-app","appId":"1:858833568685:android:d6b3752a7d7e4311a45724","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"amrita-canteen-app","configurations":{"android":"1:858833568685:android:d6b3752a7d7e4311a45724","ios":"1:858833568685:ios:86a724b6fb452d02a45724","macos":"1:858833568685:ios:86a724b6fb452d02a45724","web":"1:858833568685:web:390024c84f0b47f4a45724","windows":"1:858833568685:web:6808df59f48569a0a45724"}}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "amrita-canteen-app",
+                    "appId": "1:858833568685:android:d6b3752a7d7e4311a45724",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "amrita-canteen-app",
+                    "configurations": {
+                        "android": "1:858833568685:android:d6b3752a7d7e4311a45724",
+                        "ios": "1:858833568685:ios:86a724b6fb452d02a45724",
+                        "macos": "1:858833568685:ios:86a724b6fb452d02a45724",
+                        "web": "1:858833568685:web:390024c84f0b47f4a45724",
+                        "windows": "1:858833568685:web:6808df59f48569a0a45724"
+                    }
+                }
+            }
+        }
+    }
+}
