@@ -2,9 +2,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../config/constants.dart';
-import 'razorpay_web_interop.dart';
-import 'dart:js' as js; 
-import 'dart:js_util' as js_util;
+import 'web_checkout_stub.dart' if (dart.library.js) 'web_checkout.dart';
 
 typedef PaymentSuccessCallback = void Function(PaymentSuccessResponse response);
 typedef PaymentFailureCallback = void Function(PaymentFailureResponse response);
@@ -74,29 +72,17 @@ class PaymentService {
 
     try {
       if (kIsWeb) {
-        _openWebCheckout(options);
+        openWebCheckout(
+          options,
+          onSuccess: _onWebSuccess,
+          onFailure: _onWebFailure,
+        );
       } else {
         _razorpay.open(options);
       }
     } catch (e) {
       debugPrint('Error opening checkout: $e');
     }
-  }
-
-  void _openWebCheckout(Map<String, dynamic> options) {
-    // Add Web-specific callbacks
-    options['handler'] = js.allowInterop((response) {
-      _onWebSuccess(response);
-    });
-    
-    options['modal'] = {
-      'ondismiss': js.allowInterop(() {
-         _onWebFailure({'code': 2, 'description': 'Payment Cancelled'});
-      }),
-    };
-
-    final razorpayWeb = RazorpayWeb(js_util.jsify(options));
-    razorpayWeb.open();
   }
 
   void dispose() {
